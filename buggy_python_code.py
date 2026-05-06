@@ -26,14 +26,23 @@ def print_nametag(format_string, person):
     print(format_string.format(person=person))
 
 
-def fetch_website(urllib_version, url):
+def fetch_website(url):
     # Import the requested version (2 or 3) of urllib
-    exec(f"import urllib{urllib_version} as urllib", globals())
+    # exec(f"import urllib{urllib_version} as urllib", globals())
     # Fetch and print the requested URL
+
+    known: set[str] = {"https://www.google.com"}
 
     try:
         http = urllib3.PoolManager()
-        r = http.request('GET', url)
+
+        if url in known:
+            r = http.request('GET', url)
+        else:
+            print("Invalid URL")
+            return
+
+        print(r)
     except:
         print('Exception')
 
